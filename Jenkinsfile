@@ -14,7 +14,7 @@ pipeline {
         }
         stage('git clone') {
             steps {
-                sh ' git clone https://github.com/aleti-pavan/jenkins.git'
+                sh ' git credentialsId: '69546ca9-7210-4ad3-a23e-2c29a4dcfc4b', url: 'https://github.com/nareshchinnamsetti/terraform-pipeline.git''
             }
         }
         
