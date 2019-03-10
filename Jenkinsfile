@@ -1,41 +1,43 @@
 pipeline {
- agent any
- 
- stages {
- stage(‘checkout’) {
- steps {
- git branch: ‘master’, url: ‘https://github.com/nareshchinnamsetti/terraform-pipeline.git’
- 
- }
- }
- stage(‘Set Terraform path’) {
- steps {
- script {
- def tfHome = tool name: ‘Terraform’
- env.PATH = “${tfHome}:${env.PATH}”
- }
- sh ‘terraform — version’
- 
- 
- }
- }
- 
- stage(‘Provision infrastructure’) {
- 
- steps {
- dir(‘dev’)
- {
- sh ‘terraform init’
- sh ‘terraform plan -out=plan’
- // sh ‘terraform destroy -auto-approve’
- sh ‘terraform apply plan’
- }
- 
- 
- }
- }
- 
- 
- 
- }
+    agent {
+        node {
+            label 'master'
+        }
+    }
+
+    stages {
+
+        stage('terraform started') {
+            steps {
+                sh 'echo "Started...!" '
+            }
+        }
+        stage('git clone') {
+            steps {
+                sh 'sudo rm -r *;sudo git clone https://github.com/aleti-pavan/jenkins.git'
+            }
+        }
+        stage('tfsvars create'){
+            steps {
+                sh 'sudo cp /home/ec2-user/vars.tf ./jenkins/'
+            }
+        }
+        stage('terraform init') {
+            steps {
+                sh 'sudo /home/ec2-user/terraform init ./jenkins'
+            }
+        }
+        stage('terraform plan') {
+            steps {
+                sh 'ls ./jenkins; sudo /home/ec2-user/terraform plan ./jenkins'
+            }
+        }
+        stage('terraform ended') {
+            steps {
+                sh 'echo "Ended....!!"'
+            }
+        }
+
+        
+    }
 }
