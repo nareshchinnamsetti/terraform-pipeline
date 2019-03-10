@@ -1,21 +1,41 @@
 pipeline {
-    agent {
-        node {
-            label 'master'
-        }
-    }
-
-    stages {
-
-        stage('terraform started') {
-            steps {
-                sh 'echo "Started...!" '
-            }
-        }
-        stages {
-        stage(‘checkout’) {
-        steps {
-        git branch: ‘master’, url: ‘https://github.com/nareshchinnamsetti/terraform-pipeline.git’
+ agent any
+ 
+ stages {
+ stage(‘checkout’) {
+ steps {
+ git branch: ‘master’, url: ‘https://github.com/nareshchinnamsetti/terraform-pipeline.git’
  
  }
  }
+ stage(‘Set Terraform path’) {
+ steps {
+ script {
+ def tfHome = tool name: ‘Terraform’
+ env.PATH = “${tfHome}:${env.PATH}”
+ }
+ sh ‘terraform — version’
+ 
+ 
+ }
+ }
+ 
+ stage(‘Provision infrastructure’) {
+ 
+ steps {
+ dir(‘dev’)
+ {
+ sh ‘terraform init’
+ sh ‘terraform plan -out=plan’
+ // sh ‘terraform destroy -auto-approve’
+ sh ‘terraform apply plan’
+ }
+ 
+ 
+ }
+ }
+ 
+ 
+ 
+ }
+}
