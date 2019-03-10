@@ -14,7 +14,7 @@ pipeline {
         }
         stage('git clone') {
             steps {
-                sh 'git clone https://github.com/aleti-pavan/jenkins.git'
+                sh 'git clone https://github.com/nareshchinnamsetti/terraform-pipeline.git'
             }
         }
         stage('tfsvars create'){
