@@ -12,11 +12,6 @@ pipeline {
                 sh 'echo "Started...!" '
             }
         }
-        stage('git add') {
-            steps {
-                sh 'sudo git remote add origin https://github.com/nareshchinnamsetti/terraform-pipeline.git ./jenkins'
-            }
-        }
         stage('git clone') {
             steps {
                 sh 'sudo git clone https://github.com/nareshchinnamsetti/terraform-pipeline.git ./jenkins'
