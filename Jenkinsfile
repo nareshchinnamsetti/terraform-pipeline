@@ -14,30 +14,7 @@ pipeline {
         }
         stage('git clone') {
             steps {
-                sh 'sudo rm -r *;sudo git clone https://github.com/nareshchinnamsetti/jenkins.git'
+                sh 'sudo git clone https://github.com/nareshchinnamsetti/terraform-pipeline.git'
             }
         }
-        stage('tfsvars create'){
-            steps {
-                sh 'sudo cp /home/ubuntu/jenkins/vars.tf ./jenkins/'
-            }
-        }
-        stage('terraform init') {
-            steps {
-                sh 'sudo /home/ubuntu/jenkins/terraform init ./jenkins'
-            }
-        }
-        stage('terraform plan') {
-            steps {
-                sh 'ls ./jenkins; sudo /home/ubuntu/jenkins/terraform plan ./jenkins'
-            }
-        }
-        stage('terraform ended') {
-            steps {
-                sh 'echo "Ended....!!"'
-            }
-        }
-
         
-    }
-}
