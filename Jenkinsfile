@@ -14,7 +14,7 @@ pipeline {
         }
         stage('git clone') {
             steps {
-                sh 'sudo git clone https://github.com/nareshchinnamsetti/terraform-pipeline.git ./jenkins'
+                sh 'sudo git clone https://github.com/nareshchinnamsetti/terraform-pipeline.git '
             }
         }
         stage('tfsvars create'){
